@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Umbriel CMS - Your Content Management Solution</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+            /* Prevent horizontal scrollbars during animations */
+        }
+
+        /* Base styles for animated elements (fade-in and slide-up) */
+        .animate-on-load,
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            /* Increased initial offset for more noticeable animation */
+            transition-property: opacity, transform;
+            transition-duration: 0.7s;
+            /* Slightly longer duration for a smoother feel */
+            transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+            /* Smoother, decelerating ease */
+        }
+
+        /* Loaded state for general animations */
+        .animate-on-load.loaded,
+        .animate-on-scroll.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered animation delays for hero elements */
+        .hero-title.loaded {
+            transition-delay: 0.1s;
+        }
+
+        .hero-subtitle.loaded {
+            transition-delay: 0.3s;
+        }
+
+        .hero-buttons.loaded .cta-button-primary {
+            transition-delay: 0.5s;
+        }
+
+        .hero-buttons.loaded .cta-button-secondary {
+            transition-delay: 0.6s;
+        }
+
+
+        /* Feature Card specific animation and hover */
+        .feature-card {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            /* Start slightly scaled down */
+            transition: opacity 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
+                transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
+                box-shadow 0.3s ease-in-out;
+        }
+
+        .feature-card.loaded {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px) scale(1.04);
+            /* More pronounced lift and scale */
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.12), 0 10px 20px -5px rgba(0, 0, 0, 0.08);
+        }
+
+        .feature-card:hover .feature-icon {
+            animation: icon-bounce 0.5s ease-out;
+        }
+
+        @keyframes icon-bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        /* Testimonial Card specific animation and hover */
+        .testimonial-card {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
+                transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
+                box-shadow 0.3s ease-in-out;
+        }
+
+        .testimonial-card.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px -4px rgba(0, 0, 0, 0.08), 0 6px 12px -3px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Button hover enhancements */
+        .cta-button-primary,
+        .cta-button-secondary,
+        .cta-button-footer,
+        .ai-generate-button { /* Added AI button */
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+        }
+
+        .cta-button-primary:hover,
+        .cta-button-secondary:hover,
+        .cta-button-footer:hover,
+        .ai-generate-button:hover { /* Added AI button hover */
+            transform: scale(1.06);
+            /* Slightly more pop */
+            box-shadow: 0 6px 18px -4px rgba(var(--tw-shadow-color-rgb, 0 0 0)/0.25), 0 3px 10px -3px rgba(var(--tw-shadow-color-rgb, 0 0 0)/0.15);
+        }
+
+        /* Theme toggle button icon transition */
+        #theme-toggle img {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+
+        #theme-toggle:hover img {
+            transform: scale(1.15) rotate(15deg);
+            /* Added rotation for fun */
+        }
+
+        /* Nav link hover */
+        header nav a:not(.text-2xl):not(.mobile-nav-link),
+        /* Exclude logo and mobile specific links if they have different styling */
+        #desktop-links a {
+            /* Target desktop links specifically for underline */
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        header nav a:not(.text-2xl):not(.mobile-nav-link)::after,
+        #desktop-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: currentColor;
+            /* Uses text color */
+            transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        header nav a:not(.text-2xl):not(.mobile-nav-link):hover::after,
+        header nav a:not(.text-2xl):not(.mobile-nav-link):focus::after,
+        #desktop-links a:hover::after,
+        #desktop-links a:focus::after {
+            width: 100%;
+        }
+
+        /* AI Section Specific Styles */
+        .ai-input {
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .ai-input:focus {
+            border-color: #3b82f6; /* blue-500 */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+        .dark .ai-input:focus {
+            border-color: #60a5fa; /* blue-400 */
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.3);
+        }
+        .loader {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto; /* Center loader if needed */
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+
+    <header class="bg-white dark:bg-gray-900 shadow-md sticky top-0 z-50 w-full">
+        <nav class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-blue-600 dark:text-blue-400 transition-transform hover:scale-105">
+                <img src="assets/umbriel-dark.svg" alt="Umbriel CMS" class="h-6 dark:hidden">
+                <img src="assets/umbriel-white.svg" alt="Umbriel CMS" class="h-6 hidden dark:block">
+            </a>
+            <div class="flex items-center space-x-2 sm:space-x-4">
+                <div id="desktop-links" class="hidden md:flex items-center space-x-3 lg:space-x-6">
+                    <a href="#" class="text-sm lg:text-base hover:text-blue-600 dark:hover:text-blue-400">Features</a>
+                    <a href="#" class="text-sm lg:text-base hover:text-blue-600 dark:hover:text-blue-400">Pricing</a>
+                    <a href="#" class="text-sm lg:text-base hover:text-blue-600 dark:hover:text-blue-400">Documentation</a>
+                    <a href="#" class="text-sm lg:text-base hover:text-blue-600 dark:hover:text-blue-400">Blog</a>
+                </div>
+                <button id="theme-toggle" class="outline-none focus:outline-none p-1 rounded-full focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
+                    <img id="light-icon" src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/sun.svg" alt="Light mode" class="w-5 h-5 text-yellow-500 hidden">
+                    <img id="dark-icon" src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/moon.svg" alt="Dark mode" class="w-5 h-5 text-blue-400 block">
+                </button>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" aria-label="Toggle mobile menu" aria-expanded="false" class="text-gray-800 dark:text-gray-100 focus:outline-none p-1 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400">
+                        <img id="menu-icon" src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/menu.svg" alt="Menu" class="w-6 h-6 block">
+                        <img id="close-icon" src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/x.svg" alt="Close" class="w-6 h-6 hidden">
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-900 shadow-lg md:shadow-none border-t border-gray-200 dark:border-gray-700">
+            <div class="container mx-auto px-4 sm:px-6 py-4 space-y-3">
+                <a href="#" class="mobile-nav-link block text-center py-2 hover:text-blue-600 dark:hover:text-blue-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Features</a>
+                <a href="#" class="mobile-nav-link block text-center py-2 hover:text-blue-600 dark:hover:text-blue-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Pricing</a>
+                <a href="#" class="mobile-nav-link block text-center py-2 hover:text-blue-600 dark:hover:text-blue-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Documentation</a>
+                <a href="#" class="mobile-nav-link block text-center py-2 hover:text-blue-600 dark:hover:text-blue-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Blog</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="bg-white dark:bg-gray-900 py-16 sm:py-20 md:py-28 lg:py-32">
+        <div class="container mx-auto px-4 sm:px-6 text-center">
+            <h1 class="animate-on-load hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 text-gray-900 dark:text-gray-100 leading-tight">
+                Unleash Your Content Potential
+            </h1>
+            <p class="animate-on-load hero-subtitle text-base sm:text-lg md:text-xl mb-10 text-gray-600 dark:text-gray-300 max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto">
+                Umbriel CMS provides a powerful, flexible, and intuitive platform for managing your digital content with ease.
+            </p>
+            <div class="animate-on-load hero-buttons space-y-4 sm:space-y-0 sm:flex sm:flex-row sm:justify-center sm:space-x-4">
+                <a href="#" class="cta-button-primary w-full sm:w-auto inline-block bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-400 text-white font-bold py-2.5 px-6 text-base sm:py-3 sm:px-8 sm:text-lg rounded-lg shadow-lg hover:shadow-xl">
+                    Get Started for Free
+                </a>
+                <a href="#" class="cta-button-secondary w-full sm:w-auto inline-block border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-800 dark:text-gray-100 font-bold py-2.5 px-6 text-base sm:py-3 sm:px-8 sm:text-lg rounded-lg shadow-md hover:shadow-lg">
+                    Request Demo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-gray-50 dark:bg-gray-800 py-16 sm:py-20 md:py-28 lg:py-32">
+        <div class="container mx-auto px-4 sm:px-6 text-center">
+            <h2 class="animate-on-scroll text-3xl sm:text-4xl md:text-5xl font-bold mb-12 md:mb-16 text-gray-900 dark:text-gray-100">
+                Powerful Features
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10 max-w-sm mx-auto md:max-w-2xl lg:max-w-5xl">
+                <div class="feature-card bg-white dark:bg-gray-900 p-6 md:p-8 rounded-xl shadow-lg">
+                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/layout-dashboard.svg" alt="Layout icon" class="feature-icon w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-6 text-blue-600 dark:text-blue-400">
+                    <h3 class="text-lg sm:text-xl font-bold mb-3 text-gray-900 dark:text-gray-100">Intuitive Dashboard</h3>
+                    <p class="text-sm sm:text-base text-gray-600 dark:text-gray-300">
+                        Manage your content and settings from a clean, user-friendly interface.
+                    </p>
+                </div>
+                <div class="feature-card bg-white dark:bg-gray-900 p-6 md:p-8 rounded-xl shadow-lg">
+                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/edit-3.svg" alt="Pen Tool icon" class="feature-icon w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-6 text-blue-600 dark:text-blue-400">
+                    <h3 class="text-lg sm:text-xl font-bold mb-3 text-gray-900 dark:text-gray-100">Rich Text Editor</h3>
+                    <p class="text-sm sm:text-base text-gray-600 dark:text-gray-300">
+                        Create and format content effortlessly with our powerful WYSIWYG editor.
+                    </p>
+                </div>
+                <div class="feature-card bg-white dark:bg-gray-900 p-6 md:p-8 rounded-xl shadow-lg">
+                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/languages.svg" alt="Globe icon" class="feature-icon w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-6 text-blue-600 dark:text-blue-400">
+                    <h3 class="text-lg sm:text-xl font-bold mb-3 text-gray-900 dark:text-gray-100">Multi-Language Support</h3>
+                    <p class="text-sm sm:text-base text-gray-600 dark:text-gray-300">
+                        Manage content in multiple languages with built-in localization features.
+                    </p>
+                </div>
+                <div class="feature-card bg-white dark:bg-gray-900 p-6 md:p-8 rounded-xl shadow-lg">
+                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/settings-2.svg" alt="Settings icon" class="feature-icon w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-6 text-blue-600 dark:text-blue-400">
+                    <h3 class="text-lg sm:text-xl font-bold mb-3 text-gray-900 dark:text-gray-100">Customizable Fields</h3>
+                    <p class="text-sm sm:text-base text-gray-600 dark:text-gray-300">
+                        Tailor content models to your specific needs with flexible field types.
+                    </p>
+                </div>
+                <div class="feature-card bg-white dark:bg-gray-900 p-6 md:p-8 rounded-xl shadow-lg">
+                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/shield-check.svg" alt="Shield Check icon" class="feature-icon w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-6 text-blue-600 dark:text-blue-400">
+                    <h3 class="text-lg sm:text-xl font-bold mb-3 text-gray-900 dark:text-gray-100">Secure & Reliable</h3>
+                    <p class="text-sm sm:text-base text-gray-600 dark:text-gray-300">
+                        Built with security in mind, ensuring your content is safe and sound.
+                    </p>
+                </div>
+                <div class="feature-card bg-white dark:bg-gray-900 p-6 md:p-8 rounded-xl shadow-lg">
+                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/code-2.svg" alt="Code icon" class="feature-icon w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-6 text-blue-600 dark:text-blue-400">
+                    <h3 class="text-lg sm:text-xl font-bold mb-3 text-gray-900 dark:text-gray-100">Developer-Friendly API</h3>
+                    <p class="text-sm sm:text-base text-gray-600 dark:text-gray-300">
+                        Integrate Umbriel into any project with our robust and well-documented API.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-white dark:bg-gray-900 py-16 sm:py-20 md:py-28 lg:py-32">
+        <div class="container mx-auto px-4 sm:px-6 text-center">
+            <h2 class="animate-on-scroll text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+                ✨ Spark Your Creativity with AI ✨
+            </h2>
+            <p class="animate-on-scroll text-base sm:text-lg md:text-xl mb-10 text-gray-600 dark:text-gray-300 max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto" style="transition-delay: 0.2s;">
+                Need a catchy tagline for your next project or blog post? Describe your idea below and let our AI assistant help!
+            </p>
+            <div class="animate-on-scroll max-w-xl mx-auto" style="transition-delay: 0.4s;">
+                <div class="mb-6">
+                    <label for="ai-prompt-input" class="sr-only">Describe your project or idea</label>
+                    <textarea id="ai-prompt-input" rows="3" class="ai-input w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400" placeholder="e.g., A travel blog focusing on sustainable tourism in Southeast Asia..."></textarea>
+                </div>
+                <button id="generate-tagline-button" class="ai-generate-button w-full sm:w-auto inline-flex items-center justify-center bg-green-500 dark:bg-green-600 hover:bg-green-600 dark:hover:bg-green-500 text-white font-bold py-3 px-8 rounded-lg text-lg shadow-lg hover:shadow-xl">
+                    <span id="generate-button-text">Generate Tagline</span>
+                    <div id="generate-loader" class="loader hidden ml-3"></div>
+                </button>
+                <div id="ai-result-area" class="mt-8 p-4 min-h-[60px] bg-gray-50 dark:bg-gray-800 rounded-lg shadow text-left text-gray-700 dark:text-gray-200 hidden">
+                    <p id="ai-generated-text" class="text-lg italic"></p>
+                </div>
+                 <div id="ai-error-area" class="mt-6 p-4 bg-red-100 dark:bg-red-900 border border-red-300 dark:border-red-700 rounded-lg text-red-700 dark:text-red-300 hidden">
+                    <p id="ai-error-text"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="bg-gray-50 dark:bg-gray-800 py-16 sm:py-20 md:py-28 lg:py-32">
+        <div class="container mx-auto px-4 sm:px-6 text-center">
+            <h2 class="animate-on-scroll text-3xl sm:text-4xl md:text-5xl font-bold mb-12 md:mb-16 text-gray-900 dark:text-gray-100">
+                What Our Users Say
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 lg:gap-10 max-w-sm mx-auto md:max-w-none lg:max-w-6xl">
+                <div class="testimonial-card bg-white dark:bg-gray-900 p-6 md:p-8 rounded-xl shadow-lg">
+                    <p class="italic text-gray-600 dark:text-gray-300 mb-6 text-base sm:text-lg">
+                        "Umbriel CMS completely transformed how we manage our website content. It's incredibly intuitive and powerful."
+                    </p>
+                    <p class="font-bold text-gray-900 dark:text-gray-100">- Jane Doe</p>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm">CEO, Example Inc.</p>
+                </div>
+                <div class="testimonial-card bg-white dark:bg-gray-900 p-6 md:p-8 rounded-xl shadow-lg">
+                    <p class="italic text-gray-600 dark:text-gray-300 mb-6 text-base sm:text-lg">
+                        "The multi-language support is a game-changer for our global audience. Highly recommend!"
+                    </p>
+                    <p class="font-bold text-gray-900 dark:text-gray-100">- John Smith</p>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm">Lead Developer, Global Solutions</p>
+                </div>
+                <div class="testimonial-card bg-white dark:bg-gray-900 p-6 md:p-8 rounded-xl shadow-lg">
+                    <p class="italic text-gray-600 dark:text-gray-300 mb-6 text-base sm:text-lg">
+                        "The API made integrating Umbriel into our existing systems a breeze. Excellent documentation!"
+                    </p>
+                    <p class="font-bold text-gray-900 dark:text-gray-100">- Sarah Lee</p>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm">CTO, Tech Innovations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-blue-600 dark:bg-blue-500 py-16 sm:py-20 md:py-28 lg:py-32">
+        <div class="container mx-auto px-4 sm:px-6 text-center">
+            <h2 class="animate-on-scroll text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-white">
+                Ready to Elevate Your Content?
+            </h2>
+            <p class="animate-on-scroll text-base sm:text-lg md:text-xl mb-10 text-blue-100 dark:text-blue-200 max-w-xl md:max-w-2xl lg:max-w-3xl mx-auto" style="transition-delay: 0.2s;">
+                Join thousands of businesses using Umbriel CMS to manage their content effectively and efficiently.
+            </p>
+            <a href="#" class="animate-on-scroll cta-button-footer w-full sm:w-auto inline-block bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-blue-600 dark:text-blue-300 font-bold py-3 px-8 text-base sm:py-4 sm:px-10 sm:text-lg rounded-lg shadow-xl hover:shadow-2xl" style="transition-delay: 0.4s;">
+                Get Started Today
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 dark:bg-gray-900 py-10 sm:py-12">
+        <div class="container mx-auto px-4 sm:px-6 text-center md:flex md:justify-between md:items-center">
+            <p class="text-gray-400 dark:text-gray-500 mb-4 md:mb-0 animate-on-scroll">&copy; 2024 Umbriel CMS. All rights reserved.</p>
+            <div class="flex flex-col items-center space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4 md:space-x-6">
+                <a href="#" class="animate-on-scroll text-gray-400 hover:text-white dark:text-gray-500 dark:hover:text-gray-300" style="transition-delay: 0.1s;">Privacy Policy</a>
+                <a href="#" class="animate-on-scroll text-gray-400 hover:text-white dark:text-gray-500 dark:hover:text-gray-300" style="transition-delay: 0.2s;">Terms of Service</a>
+                <a href="#" class="animate-on-scroll text-gray-400 hover:text-white dark:text-gray-500 dark:hover:text-gray-300" style="transition-delay: 0.3s;">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('dark-icon');
+        const lightIcon = document.getElementById('light-icon');
+        const htmlElement = document.documentElement;
+        const localStorageKey = 'user-theme';
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                htmlElement.classList.add('dark');
+                if (darkIcon) darkIcon.classList.add('hidden'); // Show sun to switch to light
+                if (lightIcon) lightIcon.classList.remove('hidden');
+            } else {
+                htmlElement.classList.remove('dark');
+                if (darkIcon) darkIcon.classList.remove('hidden'); // Show moon to switch to dark
+                if (lightIcon) lightIcon.classList.add('hidden');
+            }
+        }
+
+        function getTheme() {
+            const savedTheme = localStorage.getItem(localStorageKey);
+            if (savedTheme) {
+                return savedTheme;
+            }
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                return 'dark';
+            }
+            // Check initial class on <html> if it was set, e.g. <html class="dark">
+            if (htmlElement.classList.contains('dark')) {
+                return 'dark';
+            }
+            return 'light'; // Default
+        }
+
+        const initialTheme = getTheme();
+        applyTheme(initialTheme);
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                applyTheme(newTheme);
+                localStorage.setItem(localStorageKey, newTheme);
+            });
+        }
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        if (mobileMenuButton && mobileMenu && menuIcon && closeIcon) {
+            mobileMenuButton.addEventListener('click', () => {
+                const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true' || false;
+                mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+                mobileMenu.classList.toggle('hidden');
+                menuIcon.classList.toggle('hidden'); // these toggle 'hidden' directly
+                closeIcon.classList.toggle('hidden'); //
+            });
+        }
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observerCallback = (entries, observer) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    let delay = 0;
+                    if (entry.target.classList.contains('feature-card') || entry.target.classList.contains('testimonial-card')) {
+                        const parentGrid = entry.target.parentElement;
+                        if (parentGrid) { // Ensure parent exists
+                            const itemsInGrid = Array.from(parentGrid.children).filter(child => child.classList.contains(entry.target.classList[0]));
+                            const itemIndex = itemsInGrid.indexOf(entry.target);
+                            delay = itemIndex * 0.1;
+                        }
+                    }
+                    
+                    if (entry.target.style.transitionDelay && parseFloat(entry.target.style.transitionDelay) > 0) {
+                        // If inline delay exists, respect it
+                    } else {
+                         entry.target.style.transitionDelay = `${delay}s`;
+                    }
+                    entry.target.classList.add('loaded');
+                    // observer.unobserve(entry.target); // Optional: stop observing after animation
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+        const elementsToAnimateOnScroll = document.querySelectorAll('.animate-on-scroll, .feature-card, .testimonial-card');
+        elementsToAnimateOnScroll.forEach(el => {
+            if (el) observer.observe(el); // Check if element exists before observing
+        });
+
+        // Trigger .animate-on-load elements after a short delay for page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const elementsToAnimateOnLoad = document.querySelectorAll('.animate-on-load');
+            setTimeout(() => {
+                elementsToAnimateOnLoad.forEach(el => {
+                    if (el) el.classList.add('loaded'); // Check if element exists
+                });
+            }, 100);
+        });
+
+        // --- Gemini API Integration for Tagline Generation ---
+        const generateTaglineButton = document.getElementById('generate-tagline-button');
+        const aiPromptInput = document.getElementById('ai-prompt-input');
+        const aiResultArea = document.getElementById('ai-result-area');
+        const aiGeneratedText = document.getElementById('ai-generated-text');
+        const aiErrorArea = document.getElementById('ai-error-area');
+        const aiErrorText = document.getElementById('ai-error-text');
+        const generateButtonText = document.getElementById('generate-button-text');
+        const generateLoader = document.getElementById('generate-loader');
+
+        if (generateTaglineButton && aiPromptInput && aiResultArea && aiGeneratedText && aiErrorArea && aiErrorText && generateButtonText && generateLoader ) {
+            generateTaglineButton.addEventListener('click', async () => {
+                const userInput = aiPromptInput.value.trim();
+                if (!userInput) {
+                    aiErrorText.textContent = 'Please describe your project or idea first.';
+                    aiErrorArea.classList.remove('hidden');
+                    aiResultArea.classList.add('hidden');
+                    return;
+                }
+
+                // Show loader and disable button
+                generateButtonText.classList.add('hidden');
+                generateLoader.classList.remove('hidden');
+                generateTaglineButton.disabled = true;
+                aiResultArea.classList.add('hidden');
+                aiErrorArea.classList.add('hidden');
+
+                const prompt = `Generate 3 short, catchy taglines for the following project idea: "${userInput}". Each tagline should be on a new line.`;
+
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+                const apiKey = ""; // Left empty as per instructions, Canvas will provide it
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        console.error('Gemini API Error:', errorData);
+                        throw new Error(`API request failed with status ${response.status}: ${errorData?.error?.message || 'Unknown error'}`);
+                    }
+
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        // Format the taglines with line breaks
+                        aiGeneratedText.innerHTML = text.replace(/\n/g, '<br>');
+                        aiResultArea.classList.remove('hidden');
+                    } else {
+                        console.error('Unexpected API response structure:', result);
+                        throw new Error('Could not extract tagline from API response.');
+                    }
+
+                } catch (error) {
+                    console.error('Error calling Gemini API:', error);
+                    aiErrorText.textContent = `An error occurred: ${error.message}. Please try again.`;
+                    aiErrorArea.classList.remove('hidden');
+                } finally {
+                    // Hide loader and re-enable button
+                    generateButtonText.classList.remove('hidden');
+                    generateLoader.classList.add('hidden');
+                    generateTaglineButton.disabled = false;
+                }
+            });
+        } else {
+            console.warn("One or more AI feature elements were not found in the DOM. AI functionality might be affected.");
+        }
+
+    </script>
+
+</body>
+
+</html>

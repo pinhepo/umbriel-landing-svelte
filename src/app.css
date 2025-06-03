@@ -1,0 +1,174 @@
+/* Tailwind directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+
+/* Base styles */
+@layer base {
+  :root {
+    --transition-duration: 300ms;
+    --animation-duration: 700ms;
+    --slide-distance: 2rem;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    @apply transition-colors duration-300;
+    overflow-x: hidden;
+  }
+}
+
+/* Component styles */
+@layer components {
+  /* Base styles for animated elements (fade-in and slide-up) */
+  .animate-on-load,
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(var(--slide-distance));
+    transition: opacity var(--animation-duration), transform var(--animation-duration);
+  }
+
+  /* Loaded state for general animations */
+  .animate-on-load.loaded,
+  .animate-on-scroll.loaded {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Staggered animation delays for hero elements */
+  .hero-title.loaded {
+    transition-delay: 100ms;
+  }
+
+  .hero-subtitle.loaded {
+    transition-delay: 300ms;
+  }
+
+  .hero-buttons.loaded .cta-button-primary {
+    transition-delay: 500ms;
+  }
+
+  .hero-buttons.loaded .cta-button-secondary {
+    transition-delay: 600ms;
+  }
+
+  /* Feature Card specific animation and hover */
+  .feature-card {
+    opacity: 0;
+    transform: translateY(var(--slide-distance)) scale(0.95);
+    transition: opacity 600ms, transform 600ms, box-shadow 300ms;
+  }
+
+  .feature-card.loaded {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .feature-card:hover {
+    transform: translateY(-0.5rem) scale(1.05);
+    @apply shadow-xl;
+  }
+
+  .feature-card:hover .feature-icon {
+    animation: icon-bounce 500ms ease-out;
+  }
+
+  /* Testimonial Card specific animation and hover */
+  .testimonial-card {
+    opacity: 0;
+    transform: translateY(var(--slide-distance));
+    transition: opacity 600ms, transform 600ms, box-shadow 300ms;
+  }
+
+  .testimonial-card.loaded {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-0.25rem);
+    @apply shadow-lg;
+  }
+
+  /* Button hover enhancements */
+  .cta-button-primary,
+  .cta-button-secondary,
+  .cta-button-footer,
+  .ai-generate-button {
+    transition: transform var(--transition-duration), box-shadow var(--transition-duration);
+  }
+
+  .cta-button-primary:hover,
+  .cta-button-secondary:hover,
+  .cta-button-footer:hover,
+  .ai-generate-button:hover {
+    transform: scale(1.05);
+    @apply shadow-xl;
+  }
+
+  /* Theme toggle button icon transition */
+  #theme-toggle img {
+    transition: transform var(--transition-duration);
+  }
+
+  #theme-toggle:hover img {
+    transform: scale(1.1) rotate(12deg);
+  }
+
+  /* Nav link hover */
+  header nav a:not(.text-2xl):not(.mobile-nav-link),
+  #desktop-links a {
+    @apply relative pb-1;
+  }
+
+  header nav a:not(.text-2xl):not(.mobile-nav-link)::after,
+  #desktop-links a::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-current;
+    transition: width var(--transition-duration);
+  }
+
+  header nav a:not(.text-2xl):not(.mobile-nav-link):hover::after,
+  header nav a:not(.text-2xl):not(.mobile-nav-link):focus::after,
+  #desktop-links a:hover::after,
+  #desktop-links a:focus::after {
+    @apply w-full;
+  }
+
+  /* AI Section Specific Styles */
+  .ai-input {
+    transition: all var(--transition-duration);
+  }
+
+  .ai-input:focus {
+    @apply border-blue-500 ring-2 ring-blue-500/30;
+  }
+
+  .dark .ai-input:focus {
+    @apply border-blue-400 ring-2 ring-blue-400/30;
+  }
+
+  .loader {
+    @apply w-6 h-6 border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin mx-auto;
+  }
+}
+
+/* Utilities */
+@layer utilities {
+  @keyframes icon-bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+}
