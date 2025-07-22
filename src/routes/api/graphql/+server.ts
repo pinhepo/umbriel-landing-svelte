@@ -1,12 +1,14 @@
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { ADMIN_UMBRIEL_API_URL } from '$env/static/private';
 
 export const POST: RequestHandler = async ({ request }) => {
   try {
     const body = await request.json();
     
-    const response = await fetch(ADMIN_UMBRIEL_API_URL, {
+    // API URL (hardcoded for production since it's not sensitive)
+    const API_URL = 'https://admin.gql.umbrielcms.com.br/graphql';
+    
+    const response = await fetch(API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
