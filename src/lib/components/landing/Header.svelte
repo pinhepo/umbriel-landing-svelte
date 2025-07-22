@@ -32,8 +32,8 @@
       <a href="#developers" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
         Developers
       </a>
-      <a href="#pricing" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
-        Pricing
+      <a href="#preview" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors font-semibold">
+        Try Preview
       </a>
     </div>
 
@@ -116,11 +116,11 @@
           Developers
         </a>
         <a 
-          href="#pricing" 
-          class="block text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+          href="#preview" 
+          class="block text-base font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors font-semibold"
           on:click={toggleMobileMenu}
         >
-          Pricing
+          Try Preview
         </a>
         <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
           <a 

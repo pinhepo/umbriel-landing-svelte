@@ -5,6 +5,7 @@
   import TechnicalOverview from '$lib/components/landing/TechnicalOverview.svelte';
   import DeploymentOptions from '$lib/components/landing/DeploymentOptions.svelte';
   import DeveloperResources from '$lib/components/landing/DeveloperResources.svelte';
+  import InteractivePreview from '$lib/components/landing/InteractivePreview.svelte';
   import CTA from '$lib/components/landing/CTA.svelte';
   import Footer from '$lib/components/landing/Footer.svelte';
   import { onMount } from 'svelte';
@@ -46,6 +47,9 @@
     </div>
     <div id="developers">
       <DeveloperResources />
+    </div>
+    <div id="preview">
+      <InteractivePreview />
     </div>
     <div id="cta">
       <CTA />

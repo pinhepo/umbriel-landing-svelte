@@ -1,13 +1,4 @@
 {
-  "framework": "sveltekit",
-  "buildCommand": "npm run build",
-  "installCommand": "npm install",
-  "regions": ["sfo1"],
-  "functions": {
-    "src/routes/**/*.js": {
-      "runtime": "nodejs18.x"
-    }
-  },
   "headers": [
     {
       "source": "/(.*)",
