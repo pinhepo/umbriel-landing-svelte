@@ -14,26 +14,37 @@
     openInNewTab(routes.interactivePreview);
   };
 
+  // Updated features based on actual CMS capabilities and screenshots
   const previewFeatures = [
     {
-      icon: "✏️",
-      title: "Create Real Content",
-      description: "Use our advanced editor with blocks, themes, and live preview"
-    },
-    {
-      icon: "🎨",
-      title: "Customize Themes",
-      description: "Change colors, fonts, and see your site transform instantly"
+      icon: "📝",
+      title: "Create Publications",
+      description: "Video templates, image templates, default and AI article templates. Write, edit and preview content in real-time"
     },
     {
       icon: "📊",
-      title: "View Analytics",
-      description: "Explore realistic dashboards and performance metrics"
+      title: "Detailed Analytics", 
+      description: "Complete dashboard with active users metrics, page views, comments and content distribution insights"
+    },
+    {
+      icon: "🎨",
+      title: "Complete Customization",
+      description: "Configure colors, fonts and visual identity of your site with live preview"
+    },
+    {
+      icon: "🔧",
+      title: "Flex Block Builder",
+      description: "Advanced block builder to create unique and responsive layouts for your content"
+    },
+    {
+      icon: "👥",
+      title: "Author Management",
+      description: "Manage your writing team, set permissions and track productivity in real-time"
     },
     {
       icon: "🚀",
-      title: "See Your Site Live",
-      description: "Generate and preview your website in real-time"
+      title: "Live Site Preview",
+      description: "See your final website working with all created content and applied customizations"
     }
   ];
 </script>
@@ -54,23 +65,23 @@
     <div class="mb-16">
       <div class="animate-on-scroll mb-8 {isLoaded ? 'loaded' : ''}">
         <span class="inline-flex items-center px-4 py-2 bg-white/20 text-white rounded-full text-sm font-medium backdrop-blur-sm">
-          🔥 Try It Now - No Signup Required
+          🔥 Try It Free - No Signup Required
         </span>
       </div>
       
       <h2 class="animate-on-scroll text-5xl lg:text-7xl xl:text-8xl font-black mb-8 text-white leading-none tracking-tight {isLoaded ? 'loaded' : ''}">
         Experience Umbriel<br />
-        <span class="text-blue-200">Before You Buy</span>
+        <span class="text-blue-200">For 30 Minutes</span>
       </h2>
       
       <p class="animate-on-scroll text-xl lg:text-2xl text-blue-100 font-light max-w-4xl mx-auto mb-12 {isLoaded ? 'loaded' : ''}">
-        Get your hands on the real CMS. Create content, customize themes, and see 
-        your website come to life - all in a live, interactive preview.
+        Access the complete CMS for 30 minutes. Create articles, select images and videos, 
+        customize themes and see your website working - all in a real trial environment.
       </p>
     </div>
 
-    <!-- Feature Grid -->
-    <div class="animate-on-scroll grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16 {isLoaded ? 'loaded' : ''}">
+    <!-- Feature Grid - Now with 6 features in 2 rows -->
+    <div class="animate-on-scroll grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16 {isLoaded ? 'loaded' : ''}">
       {#each previewFeatures as feature}
         <div class="text-center group">
           <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-4 group-hover:bg-white/20 transition-all duration-300 border border-white/20">
@@ -86,6 +97,37 @@
       {/each}
     </div>
 
+    <!-- What you can do section -->
+    <div class="animate-on-scroll mb-16 {isLoaded ? 'loaded' : ''}">
+      <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+        <h3 class="text-2xl font-bold text-white mb-6">✨ What you can do in 30 minutes:</h3>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-blue-100">
+          <div class="text-center">
+            <div class="text-3xl mb-2">✍️</div>
+            <p class="text-sm font-medium">Write complete articles</p>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl mb-2">🖼️</div>
+            <p class="text-sm font-medium">Select images and videos</p>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl mb-2">🎨</div>
+            <p class="text-sm font-medium">Customize visual themes</p>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl mb-2">👀</div>
+            <p class="text-sm font-medium">See live site preview</p>
+          </div>
+        </div>
+        <div class="mt-6 text-center">
+          <p class="text-blue-200 text-sm">
+            <strong>Important:</strong> You can create content and preview everything, but not publish. 
+            To publish, you need a full account.
+          </p>
+        </div>
+      </div>
+    </div>
+
     <!-- Main CTA -->
     <div class="animate-on-scroll {isLoaded ? 'loaded' : ''}">
       <button 
@@ -93,13 +135,13 @@
         class="group relative inline-flex items-center justify-center bg-white text-blue-600 font-bold py-6 px-12 text-xl rounded-full hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-white/25"
       >
         <span class="relative z-10">
-          🚀 Launch Interactive Preview
+          🚀 Start 30-Minute Trial
         </span>
         <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
       </button>
       
       <p class="text-blue-200 text-sm mt-4 font-medium">
-        ⏱️ 30-second setup • 🔓 No login required • ✨ Full features unlocked
+        ⏱️ Full 30 minutes • 🔓 No login required • ✨ All features unlocked
       </p>
     </div>
 
@@ -110,7 +152,7 @@
           <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
           </svg>
-          <span class="text-sm font-medium">Real CMS Features</span>
+          <span class="text-sm font-medium">Complete Real CMS</span>
         </div>
         <div class="flex items-center space-x-2">
           <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">

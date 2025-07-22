@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { routes } from '../../../routes.js';
 
   let isLoaded = false;
 
@@ -31,9 +30,9 @@
         <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-4 uppercase tracking-wider">Product</h4>
         <ul class="space-y-3">
           <li><a href="#features" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Features</a></li>
-          <li><a href="#pricing" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Pricing</a></li>
-          <li><a href="#updates" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Updates</a></li>
-          <li><a href="#roadmap" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Roadmap</a></li>
+          <li><a href="#technical" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Tech Stack</a></li>
+          <li><a href="#preview" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Try Preview</a></li>
+          <li><a href="#developers" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Developers</a></li>
         </ul>
       </div>
 
@@ -41,10 +40,10 @@
       <div class="animate-on-scroll {isLoaded ? 'loaded' : ''}" style="transition-delay: 0.2s;">
         <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-4 uppercase tracking-wider">Resources</h4>
         <ul class="space-y-3">
-          <li><a href="#docs" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Documentation</a></li>
-          <li><a href="#guides" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Guides</a></li>
-          <li><a href="#blog" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Blog</a></li>
-          <li><a href="#support" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Support</a></li>
+          <li><a href="/coming-soon" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Documentation</a></li>
+          <li><a href="/coming-soon" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Guides</a></li>
+          <li><a href="/coming-soon" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Blog</a></li>
+          <li><a href="/coming-soon" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Support</a></li>
         </ul>
       </div>
 
@@ -52,10 +51,10 @@
       <div class="animate-on-scroll {isLoaded ? 'loaded' : ''}" style="transition-delay: 0.3s;">
         <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-4 uppercase tracking-wider">Company</h4>
         <ul class="space-y-3">
-          <li><a href="#about" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">About</a></li>
-          <li><a href={routes.contact} class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Contact</a></li>
-          <li><a href="#careers" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Careers</a></li>
-          <li><a href="#press" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Press</a></li>
+          <li><a href="/about" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">About</a></li>
+          <li><a href="/contact" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Contact</a></li>
+          <li><a href="/careers" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Careers</a></li>
+          <li><a href="/press" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">Press</a></li>
         </ul>
       </div>
 
@@ -74,13 +73,13 @@
 
         <!-- Legal links -->
         <div class="animate-on-scroll flex space-x-6 {isLoaded ? 'loaded' : ''}" style="transition-delay: 0.5s;">
-          <a href={routes.privacyPolicy} class="text-sm text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+          <a href="/privacy" class="text-sm text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
             Privacy
           </a>
-          <a href={routes.termsOfService} class="text-sm text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+          <a href="/terms" class="text-sm text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
             Terms
           </a>
-          <a href="#cookies" class="text-sm text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+          <a href="/cookies" class="text-sm text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
             Cookies
           </a>
         </div>

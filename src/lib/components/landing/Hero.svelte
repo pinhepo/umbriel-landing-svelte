@@ -45,11 +45,11 @@
 
       <!-- Apple-style action buttons -->
       <div class="animate-on-load hero-buttons flex flex-col sm:flex-row justify-center items-center gap-6 mb-32 {isLoaded ? 'loaded' : ''}">
-        <a href={routes.getStarted} class="apple-button-primary group w-full sm:w-auto inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-4 px-12 text-lg rounded-full transition-all duration-300 ease-out">
+        <a href="#features" class="apple-button-primary group w-full sm:w-auto inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-4 px-12 text-lg rounded-full transition-all duration-300 ease-out">
           Get Started
         </a>
-        <a href={routes.requestDemo} class="apple-button-secondary group w-full sm:w-auto inline-flex items-center justify-center text-blue-600 dark:text-blue-400 hover:underline font-medium py-4 px-8 text-lg transition-all duration-300">
-          Watch the film
+        <a href="#preview" class="apple-button-secondary group w-full sm:w-auto inline-flex items-center justify-center text-blue-600 dark:text-blue-400 hover:underline font-medium py-4 px-8 text-lg transition-all duration-300">
+          Watch the demo
           <svg class="ml-2 w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
             <path d="M8 5v14l11-7z"/>
           </svg>

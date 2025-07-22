@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
+
   export let isDarkMode: boolean;
   export let toggleTheme: () => void;
 
@@ -6,6 +9,28 @@
 
   function toggleMobileMenu() {
     isMobileMenuOpen = !isMobileMenuOpen;
+  }
+
+  // Check if we're on the home page
+  $: isHomePage = $page.url.pathname === '/';
+
+  // Navigation handler for anchor links
+  function handleNavClick(event: Event, anchor: string) {
+    event.preventDefault();
+    
+    if (isHomePage) {
+      // If on home page, scroll to the section
+      const element = document.getElementById(anchor);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // If on other page, navigate to home with anchor
+      goto(`/#${anchor}`);
+    }
+    
+    // Close mobile menu if open
+    isMobileMenuOpen = false;
   }
 </script>
 
@@ -20,19 +45,19 @@
     
     <!-- Desktop Navigation -->
     <div class="hidden md:flex items-center space-x-8 lg:space-x-12">
-      <a href="#features" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+      <a href="#features" on:click={(e) => handleNavClick(e, 'features')} class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
         Features
       </a>
-      <a href="#technical" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+      <a href="#technical" on:click={(e) => handleNavClick(e, 'technical')} class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
         Tech Stack
       </a>
-      <a href="#deployment" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+      <a href="#deployment" on:click={(e) => handleNavClick(e, 'deployment')} class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
         Solutions
       </a>
-      <a href="#developers" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+      <a href="#developers" on:click={(e) => handleNavClick(e, 'developers')} class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
         Developers
       </a>
-      <a href="#preview" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors font-semibold">
+      <a href="#preview" on:click={(e) => handleNavClick(e, 'preview')} class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors font-semibold">
         Try Preview
       </a>
     </div>
@@ -90,35 +115,35 @@
         <a 
           href="#features" 
           class="block text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-          on:click={toggleMobileMenu}
+          on:click={(e) => handleNavClick(e, 'features')}
         >
           Features
         </a>
         <a 
           href="#technical" 
           class="block text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-          on:click={toggleMobileMenu}
+          on:click={(e) => handleNavClick(e, 'technical')}
         >
           Tech Stack
         </a>
         <a 
           href="#deployment" 
           class="block text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-          on:click={toggleMobileMenu}
+          on:click={(e) => handleNavClick(e, 'deployment')}
         >
           Solutions
         </a>
         <a 
           href="#developers" 
           class="block text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-          on:click={toggleMobileMenu}
+          on:click={(e) => handleNavClick(e, 'developers')}
         >
           Developers
         </a>
         <a 
           href="#preview" 
           class="block text-base font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors font-semibold"
-          on:click={toggleMobileMenu}
+          on:click={(e) => handleNavClick(e, 'preview')}
         >
           Try Preview
         </a>

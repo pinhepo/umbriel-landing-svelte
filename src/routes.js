@@ -16,6 +16,17 @@ const BASE_URLS = {
 
 const currentUrls = isDevelopment ? BASE_URLS.development : BASE_URLS.production;
 
+// Available preview routes for the 30-minute trial
+export const availablePreviewRoutes = [
+  '/new-publication',
+  '/video-hero-template', 
+  '/image-hero-template',
+  '/analytics',
+  '/client-theme',
+  '/flex-block-builder',
+  '/authors'
+];
+
 export const routes = {
   // Landing page anchors (for current page navigation)
   getStarted: `${currentUrls.frontend}/signup`,
@@ -40,6 +51,6 @@ export const routes = {
  * Helper function to open URLs in new tab
  * @param {string} url - The URL to open
  */
-export const openInNewTab = (url) => {
+export function openInNewTab(url) {
   window.open(url, '_blank', 'noopener,noreferrer');
-}; 
+} 

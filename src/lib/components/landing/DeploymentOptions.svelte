@@ -146,7 +146,7 @@
 
           <div class="bg-gray-50 dark:bg-gray-800 rounded-2xl p-6">
             <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">Starting at</div>
-            <div class="text-3xl font-black text-gray-900 dark:text-white">$29<span class="text-lg font-normal">/month</span></div>
+            <div class="text-3xl font-black text-gray-900 dark:text-white">$122<span class="text-lg font-normal">/month</span></div>
             <div class="text-sm text-gray-600 dark:text-gray-400">Pay as you grow</div>
           </div>
 

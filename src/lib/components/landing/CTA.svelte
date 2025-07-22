@@ -1,14 +1,24 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { routes } from '../../../routes.js';
+  import OnboardingModal from '../modals/OnboardingModal.svelte';
 
   let isLoaded = false;
+  let showModal = false;
 
   onMount(() => {
     setTimeout(() => {
       isLoaded = true;
     }, 100);
   });
+
+  function openModal() {
+    showModal = true;
+  }
+
+  function closeModal() {
+    showModal = false;
+  }
 </script>
 
 <!-- Apple-style CTA Section -->
@@ -26,22 +36,22 @@
 
       <!-- Subtitle -->
       <h3 class="animate-on-scroll text-2xl sm:text-3xl md:text-4xl font-light mb-12 text-gray-900 dark:text-white leading-tight {isLoaded ? 'loaded' : ''}" style="transition-delay: 0.2s;">
-        Experience the future of content management.
+        Be among the first to experience the future of content management.
       </h3>
 
       <!-- Clean description -->
       <p class="animate-on-scroll text-lg sm:text-xl md:text-2xl mb-16 text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed font-light {isLoaded ? 'loaded' : ''}" style="transition-delay: 0.4s;">
-        Join thousands of creators and businesses using Umbriel CMS to build amazing digital experiences.
+        Umbriel CMS is now launching. Join our early adopters and help shape the future of modern content management.
       </p>
 
       <!-- Apple-style action button -->
       <div class="animate-on-scroll {isLoaded ? 'loaded' : ''}" style="transition-delay: 0.6s;">
-        <a 
-          href={routes.getStarted}
+        <button 
+          on:click={openModal}
           class="apple-cta-button inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-4 px-12 text-lg rounded-full transition-all duration-300 ease-out"
         >
-          Start free trial
-        </a>
+          Be an early adopter
+        </button>
       </div>
 
       <!-- Simple feature highlights -->
@@ -69,6 +79,12 @@
     </div>
   </div>
 </section>
+
+<!-- Onboarding Modal -->
+<OnboardingModal 
+  bind:isOpen={showModal} 
+  on:close={closeModal}
+/>
 
 <style>
   /* Apple-style button */
