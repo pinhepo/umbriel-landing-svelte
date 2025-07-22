@@ -9,90 +9,184 @@
   }
 </script>
 
-<header class="bg-white dark:bg-gray-900 shadow-md sticky top-0 z-50 w-full">
-  <nav class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-    <a href="/" class="text-2xl font-bold text-blue-600 dark:text-blue-400 transition-transform hover:scale-105">
-      <img src="/umbriel-dark.svg" alt="Umbriel CMS" class="h-6 dark:hidden">
-      <img src="/umbriel-white.svg" alt="Umbriel CMS" class="h-6 hidden dark:block">
+<!-- Apple-style minimal header -->
+<header class="bg-white/80 dark:bg-black/80 backdrop-blur-xl border-b border-gray-200/20 dark:border-gray-700/20 sticky top-0 z-50 w-full">
+  <nav class="container mx-auto px-6 sm:px-8 lg:px-12 py-4 flex justify-between items-center">
+    
+    <!-- Logo -->
+    <a href="/" class="text-xl font-medium text-gray-900 dark:text-white transition-transform hover:scale-105">
+      Umbriel
     </a>
-    <div class="flex items-center space-x-2 sm:space-x-4">
-      <div id="desktop-links" class="hidden md:flex items-center space-x-3 lg:space-x-6">
-        <a href="#features" class="text-sm lg:text-base text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400">Features</a>
-        <a href="#pricing" class="text-sm lg:text-base text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400">Pricing</a>
-        <a href="#docs" class="text-sm lg:text-base text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400">Documentation</a>
-        <a href="#blog" class="text-sm lg:text-base text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400">Blog</a>
-      </div>
+    
+    <!-- Desktop Navigation -->
+    <div class="hidden md:flex items-center space-x-8 lg:space-x-12">
+      <a href="#features" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+        Features
+      </a>
+      <a href="#technical" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+        Tech Stack
+      </a>
+      <a href="#deployment" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+        Solutions
+      </a>
+      <a href="#developers" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+        Developers
+      </a>
+      <a href="#pricing" class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
+        Pricing
+      </a>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex items-center space-x-4">
+      <!-- Theme toggle -->
       <button 
         on:click={toggleTheme}
-        class="outline-none focus:outline-none p-1 rounded-full focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+        class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        aria-label="Toggle theme"
       >
-        <img 
-          src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/sun.svg" 
-          alt="Light mode" 
-          class="w-5 h-5 text-yellow-500 dark:invert {isDarkMode ? 'block' : 'hidden'}"
-        >
-        <img 
-          src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/moon.svg" 
-          alt="Dark mode" 
-          class="w-5 h-5 text-blue-400 dark:invert {!isDarkMode ? 'block' : 'hidden'}"
-        >
+        {#if isDarkMode}
+          <svg class="w-5 h-5 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+        {:else}
+          <svg class="w-5 h-5 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+          </svg>
+        {/if}
       </button>
-      <div class="md:hidden">
-        <button 
-          on:click={toggleMobileMenu}
-          aria-label="Toggle mobile menu" 
-          aria-expanded={isMobileMenuOpen}
-          class="text-gray-800 dark:text-gray-100 focus:outline-none p-1 rounded-md focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
-        >
-          <img 
-            src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/menu.svg" 
-            alt="Menu" 
-            class="w-6 h-6 {!isMobileMenuOpen ? 'block' : 'hidden'} dark:invert"
-          >
-          <img 
-            src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/x.svg" 
-            alt="Close" 
-            class="w-6 h-6 {isMobileMenuOpen ? 'block' : 'hidden'} dark:invert"
-          >
-        </button>
-      </div>
+
+      <!-- Get Started button -->
+      <a 
+        href="/get-started" 
+        class="hidden sm:inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-full transition-all duration-200 hover:scale-105"
+      >
+        Get Started
+      </a>
+
+      <!-- Mobile menu button -->
+      <button 
+        on:click={toggleMobileMenu}
+        class="md:hidden p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        aria-label="Toggle menu"
+      >
+        {#if isMobileMenuOpen}
+          <svg class="w-5 h-5 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        {:else}
+          <svg class="w-5 h-5 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        {/if}
+      </button>
     </div>
   </nav>
+
+  <!-- Mobile Navigation -->
   {#if isMobileMenuOpen}
-    <div class="md:hidden bg-white dark:bg-gray-900 shadow-lg md:shadow-none border-t border-gray-200 dark:border-gray-700">
-      <div class="container mx-auto px-4 sm:px-6 py-4 space-y-3">
-        <a href="#features" class="mobile-nav-link block text-center py-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Features</a>
-        <a href="#pricing" class="mobile-nav-link block text-center py-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Pricing</a>
-        <a href="#docs" class="mobile-nav-link block text-center py-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Documentation</a>
-        <a href="#blog" class="mobile-nav-link block text-center py-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Blog</a>
+    <div class="md:hidden border-t border-gray-200/20 dark:border-gray-700/20 bg-white/95 dark:bg-black/95 backdrop-blur-xl">
+      <div class="container mx-auto px-6 py-6 space-y-4">
+        <a 
+          href="#features" 
+          class="block text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+          on:click={toggleMobileMenu}
+        >
+          Features
+        </a>
+        <a 
+          href="#technical" 
+          class="block text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+          on:click={toggleMobileMenu}
+        >
+          Tech Stack
+        </a>
+        <a 
+          href="#deployment" 
+          class="block text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+          on:click={toggleMobileMenu}
+        >
+          Solutions
+        </a>
+        <a 
+          href="#developers" 
+          class="block text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+          on:click={toggleMobileMenu}
+        >
+          Developers
+        </a>
+        <a 
+          href="#pricing" 
+          class="block text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+          on:click={toggleMobileMenu}
+        >
+          Pricing
+        </a>
+        <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+          <a 
+            href="/get-started" 
+            class="block w-full text-center px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white text-base font-medium rounded-full transition-colors"
+            on:click={toggleMobileMenu}
+          >
+            Get Started
+          </a>
+        </div>
       </div>
     </div>
   {/if}
 </header>
 
 <style>
-  header nav a:not(.text-2xl):not(.mobile-nav-link),
-  #desktop-links a {
-    position: relative;
-    padding-bottom: 4px;
+  /* Apple-style glass morphism effect */
+  header {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
 
-  header nav a:not(.text-2xl):not(.mobile-nav-link)::after,
-  #desktop-links a::after {
+  /* Smooth nav link hover effects */
+  nav a:not(:last-child) {
+    position: relative;
+  }
+
+  nav a:not(:last-child)::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 0;
     width: 0;
-    height: 2px;
+    height: 1px;
+    bottom: -4px;
+    left: 50%;
     background-color: currentColor;
-    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
   }
 
-  header nav a:not(.text-2xl):not(.mobile-nav-link):hover::after,
-  header nav a:not(.text-2xl):not(.mobile-nav-link):focus::after,
-  #desktop-links a:hover::after,
-  #desktop-links a:focus::after {
+  nav a:not(:last-child):hover::after {
     width: 100%;
+  }
+
+  /* Button hover effects */
+  button, a[href="/get-started"] {
+    transform: scale(1);
+    transition: all 0.2s ease;
+  }
+
+  button:hover, a[href="/get-started"]:hover {
+    transform: scale(1.05);
+  }
+
+  /* Mobile menu animation */
+  .md\:hidden {
+    animation: slideDown 0.3s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style> 
