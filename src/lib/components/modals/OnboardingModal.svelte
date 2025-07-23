@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, onMount } from 'svelte';
   import { mutate } from '$lib/graphql/client';
   import { SEND_INVITE } from '$lib/graphql/mutations';
+  import { rateLimiter, rateLimitStore, updateRateLimitStore } from '$lib/stores/rateLimiter';
+  import { validateEmail, type EmailValidationResult } from '$lib/utils/emailValidator';
   
   export let isOpen = false;
   
@@ -12,6 +14,19 @@
   let isLoading = false;
   let isSuccess = false;
   let errorMessage = '';
+  let emailValidation: EmailValidationResult = { isValid: true };
+  
+  // Reactive validation
+  $: emailValidation = email ? validateEmail(email) : { isValid: true };
+  $: isFormValid = name.trim() && email.trim() && emailValidation.isValid && !$rateLimitStore.blocked;
+  
+  onMount(() => {
+    updateRateLimitStore();
+    
+    // Update rate limit store periodically
+    const interval = setInterval(updateRateLimitStore, 1000);
+    return () => clearInterval(interval);
+  });
   
   function closeModal() {
     isOpen = false;
@@ -26,8 +41,25 @@
   }
   
   async function handleSubmit() {
+    // Verificar rate limiting
+    const rateLimitCheck = rateLimiter.recordAttempt();
+    updateRateLimitStore();
+    
+    if (rateLimitCheck.blocked) {
+      const timeRemaining = rateLimiter.formatTimeRemaining(rateLimitCheck.remainingTime || 0);
+      errorMessage = `Too many attempts. Please wait ${timeRemaining} before trying again.`;
+      return;
+    }
+    
+    // Validar campos
     if (!name.trim() || !email.trim()) {
       errorMessage = 'Please fill in all fields';
+      return;
+    }
+    
+    // Validar email
+    if (!emailValidation.isValid) {
+      errorMessage = emailValidation.error || 'Invalid email address';
       return;
     }
     
@@ -126,10 +158,43 @@
               type="email"
               bind:value={email}
               placeholder="Enter your email address"
-              class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              class="w-full px-4 py-3 rounded-xl border transition-all
+                {emailValidation.isValid || !email ? 
+                  'border-gray-300 dark:border-gray-600 focus:ring-blue-500' : 
+                  'border-red-300 dark:border-red-600 focus:ring-red-500'
+                } 
+                bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:border-transparent"
               required
             />
+            
+            <!-- Email Validation Messages -->
+            {#if email && !emailValidation.isValid}
+              <div class="mt-2 text-sm text-red-600 dark:text-red-400">
+                <p>{emailValidation.error}</p>
+                {#if emailValidation.suggestion}
+                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{emailValidation.suggestion}</p>
+                {/if}
+              </div>
+            {/if}
           </div>
+
+          <!-- Rate Limit Warning -->
+          {#if $rateLimitStore.remainingAttempts <= 1 && $rateLimitStore.remainingAttempts > 0}
+            <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl p-3">
+              <p class="text-yellow-700 dark:text-yellow-400 text-sm">
+                ⚠️ {$rateLimitStore.remainingAttempts} attempt remaining before temporary block
+              </p>
+            </div>
+          {/if}
+
+          <!-- Rate Limit Block -->
+          {#if $rateLimitStore.blocked}
+            <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-3">
+              <p class="text-red-700 dark:text-red-400 text-sm">
+                🚫 Too many attempts. Please wait {rateLimiter.formatTimeRemaining($rateLimitStore.remainingTime)} before trying again.
+              </p>
+            </div>
+          {/if}
 
           <!-- Error Message -->
           {#if errorMessage}
@@ -149,8 +214,12 @@
             </button>
             <button
               type="submit"
-              disabled={isLoading}
-              class="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-xl transition-colors font-medium flex items-center justify-center"
+              disabled={isLoading || !isFormValid}
+              class="flex-1 px-6 py-3 transition-colors font-medium flex items-center justify-center rounded-xl
+                {isFormValid && !isLoading ? 
+                  'bg-blue-600 hover:bg-blue-700 text-white' : 
+                  'bg-gray-400 cursor-not-allowed text-gray-200'
+                }"
             >
               {#if isLoading}
                 <svg class="animate-spin h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24">
